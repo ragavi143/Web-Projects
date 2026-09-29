@@ -1,9 +1,9 @@
-import FormValidation from './formvalidation.jsx';
+import Valid  from './valid.jsx';
 
 function App() {
   return (
     <>
-      <FormValidation />
+      <Valid/>
     </>
   );
 }
