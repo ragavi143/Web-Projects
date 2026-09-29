@@ -1,0 +1,115 @@
+name: Deploy Web Projects
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Project 3
+        working-directory: project3
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project3/
+
+      - name: Build Project 4
+        working-directory: project4
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project4/
+
+      - name: Build Project 5
+        working-directory: project5
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project5/
+
+      - name: Build Project 6
+        working-directory: project6
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project6/
+
+      - name: Build Project 7
+        working-directory: project7
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project7/
+
+      - name: Build Project 8
+        working-directory: project8
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project8/
+
+      - name: Build Project 9
+        working-directory: project9
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project9/
+
+      - name: Build Project 10
+        working-directory: project10
+        run: |
+          npm install
+          npm run build -- --base=/Web-Projects/project10/
+
+      - name: Prepare website
+        run: |
+          mkdir -p deploy/project3
+          mkdir -p deploy/project4
+          mkdir -p deploy/project5
+          mkdir -p deploy/project6
+          mkdir -p deploy/project7
+          mkdir -p deploy/project8
+          mkdir -p deploy/project9
+          mkdir -p deploy/project10
+
+          cp index.html deploy/
+          cp style.css deploy/
+          cp Profile.html deploy/
+          cp counter.html
+
+          cp -r project3/dist/* deploy/project3/
+          cp -r project4/dist/* deploy/project4/
+          cp -r project5/dist/* deploy/project5/
+          cp -r project6/dist/* deploy/project6/
+          cp -r project7/dist/* deploy/project7/
+          cp -r project8/dist/* deploy/project8/
+          cp -r project9/dist/* deploy/project9/
+          cp -r project10/dist/* deploy/project10/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
