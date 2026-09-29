@@ -69,6 +69,7 @@ jobs:
         working-directory: project10
         run: |
           npm install
+          chmod +x node_modules/.bin/vite
           npm run build -- --base=/Web-Projects/project10/
 
       - name: Prepare website
@@ -85,7 +86,7 @@ jobs:
           cp index.html deploy/
           cp style.css deploy/
           cp Profile.html deploy/
-          cp counter.html
+          cp counter.html deploy/
 
           cp -r project3/dist/* deploy/project3/
           cp -r project4/dist/* deploy/project4/
